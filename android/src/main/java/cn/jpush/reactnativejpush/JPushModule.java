@@ -42,7 +42,6 @@ import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.service.JPushMessageReceiver;
 
-
 public class JPushModule extends ReactContextBaseJavaModule {
 
     private static String TAG = "JPushModule";
@@ -216,7 +215,8 @@ public class JPushModule extends ReactContextBaseJavaModule {
      * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Set tags
-     * @param tags tags array
+     *
+     * @param tags     tags array
      * @param callback callback
      */
     @ReactMethod
@@ -234,10 +234,12 @@ public class JPushModule extends ReactContextBaseJavaModule {
         String date = sdf.format(new Date());
         return Integer.valueOf(date);
     }
+
     /**
      * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
-     * @param tags tags to be added
+     *
+     * @param tags     tags to be added
      * @param callback callback
      */
     @ReactMethod
@@ -252,7 +254,8 @@ public class JPushModule extends ReactContextBaseJavaModule {
     /**
      * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
-     * @param tags tags to be deleted
+     *
+     * @param tags     tags to be deleted
      * @param callback callback
      */
     @ReactMethod
@@ -265,9 +268,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Clean all tags
+     *
      * @param callback callback
      */
     @ReactMethod
@@ -279,9 +283,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Get all tags
+     *
      * @param callback callback
      */
     @ReactMethod
@@ -304,10 +309,11 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Check tag bind state
-     * @param tag Tag to be checked
+     *
+     * @param tag      Tag to be checked
      * @param callback callback
      */
     @ReactMethod
@@ -319,9 +325,10 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Set alias
+     *
      * @param alias alias to be set
      */
     @ReactMethod
@@ -333,29 +340,31 @@ public class JPushModule extends ReactContextBaseJavaModule {
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Delete alias
+     *
      * @param callback callback
      */
     @ReactMethod
     public void deleteAlias(Callback callback) {
         int sequence = getSequence();
-        Logger.i(TAG,"Delete alias, sequence: " + sequence);
+        Logger.i(TAG, "Delete alias, sequence: " + sequence);
         sCacheMap.put(sequence, callback);
         JPushInterface.deleteAlias(getReactApplicationContext(), sequence);
     }
 
     /**
-     *  JPush v3.0.7 Add this API
+     * JPush v3.0.7 Add this API
      * See document https://docs.jiguang.cn/jpush/client/Android/android_api/#aliastag for detail
      * Get alias
+     *
      * @param callback callback
      */
     @ReactMethod
     public void getAlias(Callback callback) {
         int sequence = getSequence();
-        Logger.i(TAG,"Get alias, sequence: " + sequence);
+        Logger.i(TAG, "Get alias, sequence: " + sequence);
         sCacheMap.put(sequence, callback);
         JPushInterface.getAlias(getReactApplicationContext(), sequence);
     }
@@ -459,7 +468,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             mContext = getCurrentActivity();
             ReadableArray array = map.getArray("days");
             Set<Integer> days = new HashSet<Integer>();
-            for (int i=0; i < array.size(); i++) {
+            for (int i = 0; i < array.size(); i++) {
                 days.add(array.getInt(i));
             }
             int startHour = map.getInt("startHour");
@@ -472,6 +481,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
 
     /**
      * Set silent push time
+     *
      * @param map must includes startTime and endTime property
      */
     @ReactMethod
@@ -549,41 +559,41 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     // extra 字段的 json 字符串
                     String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
 
-                      JSONObject jsonObject = new JSONObject(extras);
-                              String fileNmae = "tip.mp3";
-                              try {
-                                if (jsonObject.getString("target").equals("ServiceDispatch")) {
-                                  String type = jsonObject.getString("type");
-                                  if (type.equals("service")) {
-                                    fileNmae = "fw.mp3";
-                                  } else if (type.equals("jianzhi")) {
-                                    fileNmae = "jz.mp3";
-                                  }
-                                }
-                              } catch (JSONException e) {
-                                e.printStackTrace();
-                              }
-                              AssetFileDescriptor fd = context.getAssets().openFd(fileNmae);
+                    JSONObject jsonObject = new JSONObject(extras);
+                    String fileNmae = "tip.mp3";
+                    try {
+                        if (jsonObject.getString("target").equals("ServiceDispatch")) {
+                            String type = jsonObject.getString("type");
+                            if (type.equals("service")) {
+                                fileNmae = "fw.mp3";
+                            } else if (type.equals("jianzhi")) {
+                                fileNmae = "jz.mp3";
+                            }
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    AssetFileDescriptor fd = context.getAssets().openFd(fileNmae);
                     //          if (mediaPlayer != null && mediaPlayer.isPlaying()) {
                     //            mediaPlayer.stop();
                     //          }
-                              if (mediaPlayer != null) {
-                                mediaPlayer.release();
-                                mediaPlayer = null;
-                              }
-                              mediaPlayer = new MediaPlayer();
-                              mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
-                              mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                @Override
-                                public void onCompletion(MediaPlayer mp) {
-                                  if (mp != null) {
-                                    mp.release();
-                                    mp = null;
-                                  }
-                                }
-                              });
-                              mediaPlayer.prepare();
-                              mediaPlayer.start();
+                    if (mediaPlayer != null) {
+                        mediaPlayer.release();
+                        mediaPlayer = null;
+                    }
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                        @Override
+                        public void onCompletion(MediaPlayer mp) {
+                            if (mp != null) {
+                                mp.release();
+                                mp = null;
+                            }
+                        }
+                    });
+                    mediaPlayer.prepare();
+                    mediaPlayer.start();
 
 
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
@@ -646,12 +656,12 @@ public class JPushModule extends ReactContextBaseJavaModule {
     public static class MyJPushMessageReceiver extends JPushMessageReceiver {
 
         @Override
-        public void onTagOperatorResult(Context context,JPushMessage jPushMessage) {
+        public void onTagOperatorResult(Context context, JPushMessage jPushMessage) {
             String log = "action - onTagOperatorResult, sequence:" + jPushMessage.getSequence()
                     + ", tags: " + jPushMessage.getTags();
             Logger.i(TAG, log);
             Logger.toast(context, log);
-            Logger.i(TAG,"tags size:"+jPushMessage.getTags().size());
+            Logger.i(TAG, "tags size:" + jPushMessage.getTags().size());
             Callback callback = sCacheMap.get(jPushMessage.getSequence());
             if (null != callback) {
                 WritableMap map = Arguments.createMap();
@@ -669,8 +679,9 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
             super.onTagOperatorResult(context, jPushMessage);
         }
+
         @Override
-        public void onCheckTagOperatorResult(Context context,JPushMessage jPushMessage){
+        public void onCheckTagOperatorResult(Context context, JPushMessage jPushMessage) {
             String log = "action - onCheckTagOperatorResult, sequence:" + jPushMessage.getSequence()
                     + ", checktag: " + jPushMessage.getCheckTag();
             Logger.i(TAG, log);
@@ -688,6 +699,7 @@ public class JPushModule extends ReactContextBaseJavaModule {
             }
             super.onCheckTagOperatorResult(context, jPushMessage);
         }
+
         @Override
         public void onAliasOperatorResult(Context context, JPushMessage jPushMessage) {
             String log = "action - onAliasOperatorResult, sequence:" + jPushMessage.getSequence()
