@@ -7,6 +7,8 @@ import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.SparseArray;
 
@@ -23,6 +25,7 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
@@ -38,6 +41,7 @@ import cn.jpush.android.api.JPushInterface;
 import cn.jpush.android.api.JPushMessage;
 import cn.jpush.android.data.JPushLocalNotification;
 import cn.jpush.android.service.JPushMessageReceiver;
+
 
 public class JPushModule extends ReactContextBaseJavaModule {
 
@@ -510,6 +514,8 @@ public class JPushModule extends ReactContextBaseJavaModule {
             e.printStackTrace();
         }
     }
+
+    static MediaPlayer mediaPlayer;
 
     /**
      * 接收自定义消息,通知,通知点击事件等事件的广播
