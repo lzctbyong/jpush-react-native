@@ -542,6 +542,44 @@ public class JPushModule extends ReactContextBaseJavaModule {
                     String alertContent = mCachedBundle.getString(JPushInterface.EXTRA_ALERT);
                     // extra 字段的 json 字符串
                     String extras = mCachedBundle.getString(JPushInterface.EXTRA_EXTRA);
+
+                      JSONObject jsonObject = new JSONObject(extras);
+                              String fileNmae = "tip.mp3";
+                              try {
+                                if (jsonObject.getString("target").equals("ServiceDispatch")) {
+                                  String type = jsonObject.getString("type");
+                                  if (type.equals("service")) {
+                                    fileNmae = "fw.mp3";
+                                  } else if (type.equals("jianzhi")) {
+                                    fileNmae = "jz.mp3";
+                                  }
+                                }
+                              } catch (JSONException e) {
+                                e.printStackTrace();
+                              }
+                              AssetFileDescriptor fd = context.getAssets().openFd(fileNmae);
+                    //          if (mediaPlayer != null && mediaPlayer.isPlaying()) {
+                    //            mediaPlayer.stop();
+                    //          }
+                              if (mediaPlayer != null) {
+                                mediaPlayer.release();
+                                mediaPlayer = null;
+                              }
+                              mediaPlayer = new MediaPlayer();
+                              mediaPlayer.setDataSource(fd.getFileDescriptor(), fd.getStartOffset(), fd.getLength());
+                              mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                @Override
+                                public void onCompletion(MediaPlayer mp) {
+                                  if (mp != null) {
+                                    mp.release();
+                                    mp = null;
+                                  }
+                                }
+                              });
+                              mediaPlayer.prepare();
+                              mediaPlayer.start();
+
+
                     Logger.i(TAG, "收到推送下来的通知: " + alertContent);
                     Logger.i(TAG, "extras: " + extras);
                     mEvent = RECEIVE_NOTIFICATION;
